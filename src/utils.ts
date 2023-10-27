@@ -47,8 +47,9 @@ export async function getAppCacheFileName(
   version: string,
   url: string
 ): Promise<string> {
-  const format = (url: string) =>
-    url.replace(/(http|https):\/\//, '$1_').replace(/\//g, '_')
+  // @see https://github.com/ScoopInstaller/Scoop/blob/f93028001fbe5c78cc41f59e3814d2ac8e595724/lib/core.ps1#L227C3-L227C3
+  // function cache_path($app, $version, $url) { "$cachedir\$app#$version#$($url -replace '[^\w\.\-]+', '_')" }
+  const format = (url: string) => url.replace(/[^\w.-]+/g, '_')
 
   return `${app}#${version}#${format(url)}`
 }
